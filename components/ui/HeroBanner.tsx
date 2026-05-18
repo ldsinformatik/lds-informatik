@@ -1,96 +1,116 @@
 'use client'
-import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { ArrowRight, CheckCircle, Star, Wrench, ShoppingBag, Building2, Clock } from 'lucide-react'
+
+interface HeroBannerProps { boutique: Record<string, string> }
 
 function BadgeHoraires() {
-  const [statut, setStatut] = useState<'ouvert'|'ferme'>('ferme')
+  const [statut, setStatut] = useState<'ouvert'|'ferme'>('ouvert')
+
   useEffect(() => {
     const check = () => {
-      const now = new Date(); const h = now.getHours() * 60 + now.getMinutes(); const d = now.getDay()
+      const now = new Date()
+      const day = now.getDay() // 0=dim, 6=sam
+      const h = now.getHours() * 60 + now.getMinutes()
       let open = false
-      if (d >= 1 && d <= 5) open = (h >= 570 && h <= 780) || (h >= 870 && h <= 1110)
-      if (d === 6) open = h >= 570 && h <= 840
+      if (day >= 1 && day <= 5) open = (h >= 570 && h <= 780) || (h >= 870 && h <= 1110)
+      if (day === 6) open = h >= 570 && h <= 840
       setStatut(open ? 'ouvert' : 'ferme')
     }
-    check(); const t = setInterval(check, 60000); return () => clearInterval(t)
+    check()
+    const t = setInterval(check, 60000)
+    return () => clearInterval(t)
   }, [])
+
   return (
-    <div className="badge pulse-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,74,173,.08)', color: 'var(--primary)', padding: '8px 16px', borderRadius: '999px', fontSize: '12.5px', fontWeight: 600, marginBottom: '20px' }}>
-      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: statut === 'ouvert' ? '#0EA66E' : '#EF4444', display: 'inline-block' }} />
-      {statut === 'ouvert' ? '🟢 Ouvert maintenant' : '🔴 Actuellement fermé'}
-    </div>
+    <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold ${
+      statut === 'ouvert' ? 'bg-green-500/15 text-green-400' : 'bg-red-500/15 text-red-400'
+    }`}>
+      <span className={`w-2 h-2 rounded-full ${statut === 'ouvert' ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></span>
+      {statut === 'ouvert' ? 'Ouvert maintenant' : 'Actuellement fermé'}
+    </span>
   )
 }
 
-export default function HeroBanner({ boutique }: { boutique: Record<string, string> }) {
+export default function HeroBanner({ boutique }: HeroBannerProps) {
   return (
-    <section className="hero-gradient-anim" style={{ padding: '56px 32px 40px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'center', maxWidth: '1100px', margin: 'auto' }} className="hero-grid">
+    <section className="bg-[#021634] pt-28 pb-20 relative overflow-hidden">
+      {/* Background subtle grid */}
+      <div className="absolute inset-0 opacity-[0.03]"
+        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#004AAD]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
 
-        {/* Gauche */}
-        <div className="reveal">
-          <BadgeHoraires />
-          <h1 style={{ fontSize: 'clamp(2rem,4vw,3.4rem)', fontWeight: 800, lineHeight: 1.1, color: '#fff', marginBottom: '18px' }}>
-            Votre expert<br />
-            <span style={{ color: '#7ac8ff' }}>informatique</span><br />
-            à Troyes
-          </h1>
-          <p style={{ fontSize: '14.5px', color: 'rgba(255,255,255,.75)', marginBottom: '28px', maxWidth: '520px', lineHeight: 1.7 }}>
-            Depuis 2023, LDS INFORMATIK accompagne les particuliers et les professionnels pour tous leurs besoins informatiques et téléphonie.
-          </p>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
-            <Link href="/reparer" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', fontWeight: 600, color: '#fff', background: 'var(--primary)', border: 'none', padding: '13px 26px', borderRadius: '13px', boxShadow: '0 8px 20px rgba(0,74,173,.4)', transition: 'all .2s', textDecoration: 'none' }}>
-              Demander un devis →
-            </Link>
-            <Link href="/acheter" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', fontWeight: 600, color: '#fff', background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.3)', padding: '13px 24px', borderRadius: '13px', transition: 'all .2s', textDecoration: 'none' }}>
-              Voir les produits
-            </Link>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+        <div className="grid lg:grid-cols-2 gap-14 items-center">
+
+          {/* Gauche */}
+          <div>
+            <BadgeHoraires />
+            <h1 className="mt-5 text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+              Votre expert<br />
+              <span className="text-[#004AAD]">informatique</span><br />
+              à Troyes
+            </h1>
+            <p className="mt-5 text-white/60 text-lg leading-relaxed max-w-xl">
+              Depuis 2023, LDS INFORMATIK accompagne les particuliers et les professionnels
+              pour tous leurs besoins informatiques et téléphonie.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/reparer" className="btn-primary">
+                Demander un devis <ArrowRight size={16} />
+              </Link>
+              <Link href="/acheter" className="btn-secondary">
+                Voir les produits
+              </Link>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-5">
+              {[
+                'Diagnostic gratuit',
+                'Sans rendez-vous',
+                "Garantie jusqu'à 3 ans",
+                'Paiement en plusieurs fois',
+              ].map(item => (
+                <div key={item} className="flex items-center gap-2 text-white/60 text-sm">
+                  <CheckCircle size={14} className="text-[#004AAD]" />
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-            {['✅ Diagnostic gratuit', '⚡ Réparation le jour même', '🛡️ Garantie 3 ans', '💳 Paiement en plusieurs fois'].map(item => (
-              <div key={item} style={{ fontSize: '12.5px', color: 'rgba(255,255,255,.7)', display: 'flex', alignItems: 'center', gap: '6px' }}>{item}</div>
+
+          {/* Droite */}
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { icon: Wrench, label: 'Réparation', desc: 'Smartphones & PC', href: '/reparer', color: 'bg-blue-500/10 text-blue-400' },
+              { icon: ShoppingBag, label: 'Acheter', desc: 'Produits reconditionnés', href: '/acheter', color: 'bg-green-500/10 text-green-400' },
+              { icon: Building2, label: 'Infogérance', desc: 'Services B2B', href: '/infogerance', color: 'bg-purple-500/10 text-purple-400' },
+              { icon: Clock, label: 'Assistance', desc: 'Prise en main à distance', href: '/contact', color: 'bg-amber-500/10 text-amber-400' },
+            ].map(s => (
+              <Link key={s.label} href={s.href}
+                className="bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 rounded-2xl p-5 transition-all group">
+                <div className={`w-10 h-10 rounded-xl ${s.color} flex items-center justify-center mb-3`}>
+                  <s.icon size={20} />
+                </div>
+                <div className="text-white font-bold text-sm">{s.label}</div>
+                <div className="text-white/40 text-xs mt-0.5">{s.desc}</div>
+              </Link>
             ))}
-          </div>
-        </div>
 
-        {/* Droite — card bleue */}
-        <div className="reveal reveal-right">
-          <div style={{ background: 'linear-gradient(135deg,#004AAD 0%,#162a68 100%)', borderRadius: '28px', padding: '36px', color: '#fff', position: 'relative', overflow: 'hidden', minHeight: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 28px 56px rgba(0,74,173,.22)' }}>
-            <div style={{ position: 'absolute', width: '240px', height: '240px', borderRadius: '50%', background: 'rgba(255,255,255,.07)', top: '-70px', right: '-55px' }} />
-            <div>
-              <h3 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '8px' }}>L'informatique pour</h3>
-              <p style={{ opacity: .8, fontSize: '13px', marginBottom: '20px' }}>les particuliers et les professionnels</p>
-              <ul style={{ listStyle: 'none', display: 'grid', gap: '10px' }}>
-                {[
-                  '🔧 Réparation smartphone & PC',
-                  '🛍 Vente de matériel reconditionné',
-                  '🏢 Infogérance & services B2B',
-                  '💻 PC sur mesure',
-                ].map(item => (
-                  <li key={item} style={{ background: 'rgba(255,255,255,.09)', padding: '12px 16px', borderRadius: '12px', fontSize: '13.5px' }}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div style={{ marginTop: '20px', display: 'flex', gap: '12px' }}>
-              <div style={{ flex: 1, background: 'rgba(255,255,255,.09)', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800 }}>5⭐</div>
-                <div style={{ fontSize: '11px', opacity: .7, marginTop: '3px' }}>Note Google</div>
+            {/* Note Google */}
+            <a href={boutique.google_avis || '#'} target="_blank" rel="noopener"
+              className="col-span-2 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl p-4 flex items-center gap-4 transition-all">
+              <div className="flex text-yellow-400 gap-0.5">
+                {[1,2,3,4,5].map(i => <Star key={i} size={16} fill="currentColor" />)}
               </div>
-              <div style={{ flex: 1, background: 'rgba(255,255,255,.09)', borderRadius: '12px', padding: '14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.4rem', fontWeight: 800 }}>2023</div>
-                <div style={{ fontSize: '11px', opacity: .7, marginTop: '3px' }}>Fondé à Troyes</div>
+              <div>
+                <div className="text-white font-semibold text-sm">5/5 sur Google</div>
+                <div className="text-white/40 text-xs">Voir nos avis clients →</div>
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media(max-width:768px){
-          .hero-grid{grid-template-columns:1fr!important;}
-          .hero-grid > div:last-child{display:none;}
-        }
-      `}</style>
     </section>
   )
 }

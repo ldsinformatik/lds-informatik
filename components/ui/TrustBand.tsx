@@ -1,46 +1,59 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
-function Counter({ val }: { val: string }) {
-  const [display, setDisplay] = useState('0')
-  const ref = useRef<HTMLSpanElement>(null)
-  const done = useRef(false)
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !done.current) {
-        done.current = true
-        const num = parseFloat(val.replace(',', '.').replace(/[^0-9.]/g, ''))
-        if (isNaN(num)) { setDisplay(val); return }
-        const dur = 1500; const start = performance.now()
-        const tick = (now: number) => {
-          const p = Math.min((now - start) / dur, 1)
-          const cur = Math.floor(p * num)
-          setDisplay(val.replace(/[\d,.]+/, cur.toString().replace('.', ',')))
-          if (p < 1) requestAnimationFrame(tick)
-        }
-        requestAnimationFrame(tick)
-      }
-    }, { threshold: 0.5 })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [val])
-  return <span ref={ref} className="trust-num count-anim">{display}</span>
+interface TrustBandProps {
+  items: Array<{ valeur: string; label: string }>
 }
 
-export default function TrustBand({ items }: { items: Array<{valeur: string; label: string}> }) {
-  const data = items.length > 0 ? items : [
+function Counter({ target, suffix = '' }: { target: string; suffix?: string }) {
+  const [display, setDisplay] = useState('0')
+  const ref = useRef<HTMLDivElement>(null)
+  const animated = useRef(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !animated.current) {
+        animated.current = true
+        const num = parseFloat(target.replace(',', '.').replace('%', '').replace(' ans', ''))
+        if (isNaN(num)) { setDisplay(target); return }
+        let start = 0
+        const duration = 1500
+        const step = (timestamp: number, startTime: number) => {
+          const progress = Math.min((timestamp - startTime) / duration, 1)
+          const val = Math.floor(progress * num)
+          setDisplay(target.replace(/[\d,.]+/, val.toString().replace('.', ',')))
+          if (progress < 1) requestAnimationFrame(ts => step(ts, startTime))
+        }
+        requestAnimationFrame(ts => step(ts, ts))
+      }
+    }, { threshold: 0.5 })
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [target])
+
+  return <div ref={ref} className="text-4xl font-extrabold text-white">{display}</div>
+}
+
+export default function TrustBand({ items }: TrustBandProps) {
+  const defaultItems = [
     { valeur: '10 ans', label: "D'expertise terrain" },
     { valeur: '99,9 %', label: 'Clients satisfaits' },
     { valeur: '3 ans', label: 'Garantie incluse' },
   ]
+  const data = items.length > 0 ? items : defaultItems
+
   return (
-    <div className="trust-band" style={{ display: 'grid', gridTemplateColumns: `repeat(${data.length},1fr)`, background: '#fff', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-      {data.map((item, i) => (
-        <div key={i} className="trust-item" style={{ padding: '18px 20px', textAlign: 'center', position: 'relative', borderRight: i < data.length - 1 ? '1px solid var(--border)' : 'none' }}>
-          <Counter val={item.valeur} />
-          <div className="trust-lbl" style={{ fontSize: '11.5px', color: 'var(--gray)', marginTop: '4px' }}>{item.label}</div>
+    <section className="bg-[#004AAD] py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+          {data.map((item, i) => (
+            <div key={i} className="flex flex-col items-center gap-2">
+              <Counter target={item.valeur} />
+              <p className="text-blue-200 font-medium text-sm">{item.label}</p>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+    </section>
   )
 }

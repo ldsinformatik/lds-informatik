@@ -1,30 +1,35 @@
 'use client'
 import { useState } from 'react'
+import { Plus, Minus } from 'lucide-react'
 import type { Faq } from '@/types/database'
 
-export default function FaqSection({ faq }: { faq: Faq[] }) {
-  const [open, setOpen] = useState<string|null>(null)
+interface FaqSectionProps { faq: Faq[] }
+
+export default function FaqSection({ faq }: FaqSectionProps) {
+  const [open, setOpen] = useState<string | null>(null)
   return (
-    <section style={{ background: '#fff' }}>
-      <div className="sh" style={{ padding: '56px 32px 36px', background: '#fff', borderBottom: '1px solid var(--border)' }}>
-        <div className="stag reveal">FAQ</div>
-        <div className="stitle reveal">Questions <strong>fréquentes</strong></div>
-      </div>
-      <div className="faq-wrap" style={{ padding: '20px 32px 48px' }}>
-        {faq.map(f => (
-          <div key={f.id} className="faq-item" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', marginBottom: '8px', overflow: 'hidden' }}>
-            <div className="faq-q" onClick={() => setOpen(open === f.id ? null : f.id)}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px', cursor: 'pointer', fontSize: '13.5px', fontWeight: 600, color: 'var(--secondary)', transition: 'background .18s', background: open === f.id ? 'var(--light)' : 'transparent' }}>
-              <span>{f.question}</span>
-              <span style={{ fontSize: '18px', color: 'var(--primary)', transition: 'transform .25s', transform: open === f.id ? 'rotate(45deg)' : 'none', flexShrink: 0 }}>+</span>
+    <section className="py-20 bg-white">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-14">
+          <span className="section-tag">FAQ</span>
+          <h2 className="section-title">Questions fréquentes</h2>
+        </div>
+        <div className="space-y-3">
+          {faq.map(f => (
+            <div key={f.id} className="border border-gray-200 rounded-2xl overflow-hidden">
+              <button onClick={() => setOpen(open === f.id ? null : f.id)}
+                className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-gray-50 transition-colors">
+                <span className="font-semibold text-gray-900 text-sm sm:text-base">{f.question}</span>
+                {open === f.id ? <Minus size={18} className="text-[#004AAD] flex-shrink-0"/> : <Plus size={18} className="text-gray-400 flex-shrink-0"/>}
+              </button>
+              {open === f.id && (
+                <div className="px-5 pb-5 text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
+                  {f.reponse}
+                </div>
+              )}
             </div>
-            {open === f.id && (
-              <div style={{ padding: '0 20px 16px' }}>
-                <p style={{ fontSize: '13px', color: 'var(--gray)', lineHeight: 1.7 }}>{f.reponse}</p>
-              </div>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   )

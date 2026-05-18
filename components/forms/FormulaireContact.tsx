@@ -1,50 +1,95 @@
 'use client'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import toast from 'react-hot-toast'
+import { useState } from 'react'
+import { Send } from 'lucide-react'
 
-export default function FormulaireContact({ clientEmail, clientId }: { clientEmail?: string; clientId?: string }) {
-  const [form, setForm] = useState({ nom: '', email: clientEmail || '', tel: '', sujet: '', message: '' })
+const schema = z.object({
+  nom: z.string().min(2, 'Nom requis'),
+  email: z.string().email('Email invalide'),
+  tel: z.string().optional(),
+  sujet: z.string().min(1, 'Sujet requis'),
+  message: z.string().min(10, 'Message trop court'),
+})
+type FormData = z.infer<typeof schema>
+
+interface Props { clientEmail?: string; clientId?: string }
+
+export default function FormulaireContact({ clientEmail, clientId }: Props) {
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
-  const h = (k: string) => (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => setForm(f => ({ ...f, [k]: e.target.value }))
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { email: clientEmail || '' },
+  })
 
-  const submit = async () => {
-    if (!form.nom || !form.email || !form.message) { toast.error('Remplissez les champs obligatoires'); return }
+  const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
-      const res = await fetch('/api/demandes', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'contact', client_id: clientId || null, client_nom: form.nom, client_email: form.email, client_tel: form.tel, message: `[${form.sujet}] ${form.message}` }) })
+      const res = await fetch('/api/demandes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, type: 'contact', client_nom: data.nom, client_email: data.email, client_tel: data.tel, client_id: clientId }),
+      })
       if (!res.ok) throw new Error('Erreur')
       setDone(true)
-    } catch { toast.error('Erreur lors de l\'envoi') }
-    setLoading(false)
+    } catch {
+      toast.error('Erreur lors de l\'envoi')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (done) return (
-    <div style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '40px', boxShadow: 'var(--shadow)', textAlign: 'center' }} className="card-static">
-      <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>✅</div>
-      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--secondary)', marginBottom: '10px' }}>Message envoyé !</h3>
-      <p style={{ fontSize: '13px', color: 'var(--gray)' }}>Nous vous répondrons dans les plus brefs délais.</p>
+    <div className="card p-10 text-center">
+      <div className="text-5xl mb-4">✅</div>
+      <h3 className="text-xl font-bold mb-2">Message envoyé !</h3>
+      <p className="text-gray-500 text-sm">Nous vous répondrons dans les plus brefs délais.</p>
     </div>
   )
 
   return (
-    <div style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '28px', boxShadow: 'var(--shadow)' }} className="card-static">
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-        <div><label className="fl">Prénom Nom *</label><input className="fc" value={form.nom} onChange={h('nom')} placeholder="Jean Dupont" /></div>
-        <div><label className="fl">Email *</label><input className="fc" type="email" value={form.email} onChange={h('email')} /></div>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-        <div><label className="fl">Téléphone</label><input className="fc" type="tel" value={form.tel} onChange={h('tel')} placeholder="06 00 00 00 00" /></div>
-        <div><label className="fl">Sujet</label>
-          <select className="fc" value={form.sujet} onChange={h('sujet')}>
-            <option value="">Sélectionner...</option>
-            <option>Question générale</option><option>Réparation</option><option>Achat / Produit</option><option>Infogérance</option><option>Autre</option>
-          </select>
+    <form onSubmit={handleSubmit(onSubmit)} className="card p-8 space-y-5">
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nom *</label>
+          <input {...register('nom')} className="input" placeholder="Marie Dupont" />
+          {errors.nom && <p className="text-red-500 text-xs mt-1">{errors.nom.message}</p>}
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email *</label>
+          <input {...register('email')} type="email" className="input" />
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
         </div>
       </div>
-      <label className="fl">Message *</label>
-      <textarea className="fc" value={form.message} onChange={h('message')} style={{ height: '120px' }} placeholder="Votre message..." />
-      <button onClick={submit} disabled={loading} className="sbtn">{loading ? 'Envoi...' : 'Envoyer le message'}</button>
-    </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Téléphone</label>
+          <input {...register('tel')} type="tel" className="input" placeholder="07 00 00 00 00" />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Sujet *</label>
+          <select {...register('sujet')} className="input">
+            <option value="">Sélectionner...</option>
+            <option>Question générale</option>
+            <option>Réparation</option>
+            <option>Achat / Produit</option>
+            <option>Infogérance</option>
+            <option>Autre</option>
+          </select>
+          {errors.sujet && <p className="text-red-500 text-xs mt-1">{errors.sujet.message}</p>}
+        </div>
+      </div>
+      <div>
+        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Message *</label>
+        <textarea {...register('message')} className="input" rows={5} placeholder="Votre message..." />
+        {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+      </div>
+      <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
+        {loading ? 'Envoi...' : <><Send size={16} /> Envoyer le message</>}
+      </button>
+    </form>
   )
 }
