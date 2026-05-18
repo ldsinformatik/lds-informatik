@@ -270,3 +270,8 @@ export default function AccueilPage() {
 }
 ENDOFFILE
 echo "✅ Done — $(wc -l < /home/claude/lds-informatik/app/\(public\)/accueil/page.tsx) lines"
+{
+  "returncode" : 0,
+  "stdout" : "✅ Done — 269 lines\n",
+  "stderr" : ""
+}
