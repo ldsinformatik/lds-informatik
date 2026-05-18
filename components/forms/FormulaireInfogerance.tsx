@@ -1,103 +1,81 @@
 'use client'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import toast from 'react-hot-toast'
 import { useState } from 'react'
-import { Send } from 'lucide-react'
+import toast from 'react-hot-toast'
 
-const schema = z.object({
-  nom: z.string().min(2, 'Nom requis'),
-  email: z.string().email('Email invalide'),
-  tel: z.string().min(8, 'Téléphone requis'),
-  entreprise: z.string().min(1, 'Entreprise requise'),
-  nb_postes: z.string().min(1, 'Requis'),
-  besoins: z.string().min(10, 'Décrivez vos besoins'),
-})
-type FormData = z.infer<typeof schema>
+const igState = { prenom:'',nom:'',entreprise:'',email:'',tel:'',postes:'',prestataire:'',sauvegarde:'',m365:'',besoins:[] as string[],message:'' }
 
-interface Props { clientId?: string; clientEmail?: string }
-
-export default function FormulaireInfogerance({ clientId, clientEmail }: Props) {
+export default function FormulaireInfogerance({ clientId, clientEmail }: { clientId?: string; clientEmail?: string }) {
+  const [form, setForm] = useState({ ...igState, email: clientEmail || '' })
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: { email: clientEmail || '' },
-  })
 
-  const onSubmit = async (data: FormData) => {
+  const h = (k: string) => (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>) => setForm(f => ({ ...f, [k]: e.target.value }))
+  const single = (k: string, v: string) => setForm(f => ({ ...f, [k]: f[k as keyof typeof f] === v ? '' : v }))
+  const multi = (v: string) => setForm(f => ({ ...f, besoins: f.besoins.includes(v) ? f.besoins.filter(x => x !== v) : [...f.besoins, v] }))
+  const sel = (v: string, cur: string) => ({ padding: '9px 16px', borderRadius: '10px', border: cur === v ? '2px solid var(--primary)' : '1.5px solid var(--border)', fontSize: '12.5px', fontWeight: cur === v ? 600 : 500, cursor: 'pointer', transition: 'all .18s', background: cur === v ? 'var(--light)' : '#fff', color: cur === v ? 'var(--primary)' : 'var(--secondary)' })
+  const selM = (v: string) => ({ padding: '9px 16px', borderRadius: '10px', border: form.besoins.includes(v) ? '2px solid var(--primary)' : '1.5px solid var(--border)', fontSize: '12.5px', fontWeight: form.besoins.includes(v) ? 600 : 500, cursor: 'pointer', transition: 'all .18s', background: form.besoins.includes(v) ? 'var(--light)' : '#fff', color: form.besoins.includes(v) ? 'var(--primary)' : 'var(--secondary)' })
+
+  const submit = async () => {
+    if (!form.prenom || !form.nom || !form.email || !form.tel || !form.entreprise || !form.postes) { toast.error('Remplissez tous les champs obligatoires'); return }
     setLoading(true)
     try {
       const res = await fetch('/api/demandes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, type: 'infogerance', client_id: clientId }),
+        body: JSON.stringify({ type: 'infogerance', client_id: clientId || null, client_nom: `${form.prenom} ${form.nom}`, client_email: form.email, client_tel: form.tel, entreprise: form.entreprise, nb_postes: form.postes, besoins: `${form.prestataire ? 'Prestataire: '+form.prestataire+'. ' : ''}${form.sauvegarde ? 'Sauvegarde: '+form.sauvegarde+'. ' : ''}${form.m365 ? 'Suite: '+form.m365+'. ' : ''}Besoins: ${form.besoins.join(', ')}`, message: form.message }),
       })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error)
+      if (!res.ok) throw new Error('Erreur')
       setDone(true)
-    } catch (e: any) {
-      toast.error(e.message || 'Erreur lors de l\'envoi')
-    } finally {
-      setLoading(false)
-    }
+    } catch { toast.error('Erreur lors de l\'envoi') }
+    setLoading(false)
   }
 
   if (done) return (
-    <div className="card p-10 text-center">
-      <div className="text-5xl mb-4">✅</div>
-      <h3 className="text-xl font-bold mb-2">Demande envoyée !</h3>
-      <p className="text-gray-500 text-sm">Nous vous contacterons dans les 2h. Bien cordialement,</p>
-      <p className="font-semibold mt-1">L'équipe LDS INFORMATIK</p>
+    <div style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '40px', boxShadow: 'var(--shadow)', textAlign: 'center' }} className="card-static">
+      <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>✅</div>
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--secondary)', marginBottom: '10px' }}>Demande envoyée !</h2>
+      <p style={{ fontSize: '13px', color: 'var(--gray)', lineHeight: 1.8 }}>Nous avons bien reçu votre demande, nous vous contacterons dans un délai de 2h.<br /><br />Bien cordialement,</p>
     </div>
   )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="card p-8 space-y-5">
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nom *</label>
-          <input {...register('nom')} className="input" placeholder="Dupont" />
-          {errors.nom && <p className="text-red-500 text-xs mt-1">{errors.nom.message}</p>}
-        </div>
-        <div>
-          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Entreprise *</label>
-          <input {...register('entreprise')} className="input" placeholder="Ma Société SAS" />
-          {errors.entreprise && <p className="text-red-500 text-xs mt-1">{errors.entreprise.message}</p>}
-        </div>
+    <div style={{ background: '#fff', borderRadius: 'var(--radius)', padding: '28px', boxShadow: 'var(--shadow)' }} className="card-static">
+      <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '.1em', color: 'var(--primary)', fontWeight: 700, marginBottom: '18px' }}>Échangeons sur vos besoins informatiques</div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+        <div><label className="fl">Prénom *</label><input className="fc" value={form.prenom} onChange={h('prenom')} placeholder="Jean" /></div>
+        <div><label className="fl">Nom *</label><input className="fc" value={form.nom} onChange={h('nom')} placeholder="Dupont" /></div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Email *</label>
-          <input {...register('email')} type="email" className="input" />
-          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
-        </div>
-        <div>
-          <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Téléphone *</label>
-          <input {...register('tel')} type="tel" className="input" placeholder="03 25 00 00 00" />
-          {errors.tel && <p className="text-red-500 text-xs mt-1">{errors.tel.message}</p>}
-        </div>
+      <label className="fl">Entreprise *</label><input className="fc" value={form.entreprise} onChange={h('entreprise')} placeholder="Ma société" />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+        <div><label className="fl">Email *</label><input className="fc" type="email" value={form.email} onChange={h('email')} placeholder="jean@société.fr" /></div>
+        <div><label className="fl">Téléphone *</label><input className="fc" type="tel" value={form.tel} onChange={h('tel')} placeholder="06 00 00 00 00" /></div>
       </div>
-      <div>
-        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Nombre de postes *</label>
-        <select {...register('nb_postes')} className="input">
-          <option value="">Sélectionner...</option>
-          <option value="1-5">1 à 5 postes</option>
-          <option value="6-15">6 à 15 postes</option>
-          <option value="16-50">16 à 50 postes</option>
-          <option value="50+">Plus de 50 postes</option>
-        </select>
-        {errors.nb_postes && <p className="text-red-500 text-xs mt-1">{errors.nb_postes.message}</p>}
+      <label className="fl">Nombre de postes *</label>
+      <select className="fc" value={form.postes} onChange={h('postes')}>
+        <option value="">Sélectionner…</option>
+        <option>1 – 3 postes</option><option>4 – 10 postes</option><option>11 – 25 postes</option><option>26 – 50 postes</option><option>50+ postes</option>
+      </select>
+      <label className="fl" style={{ marginTop: '4px' }}>Avez-vous déjà un prestataire informatique ?</label>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        {['Oui','Non','Gestion interne'].map(v => <button key={v} onClick={() => single('prestataire', v)} style={sel(v, form.prestataire)}>{v}</button>)}
       </div>
-      <div>
-        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Décrivez vos besoins *</label>
-        <textarea {...register('besoins')} className="input" rows={4} placeholder="Maintenance parc, Microsoft 365, cybersécurité, support utilisateurs..." />
-        {errors.besoins && <p className="text-red-500 text-xs mt-1">{errors.besoins.message}</p>}
+      <label className="fl">Avez-vous une solution de sauvegarde ?</label>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        {['Oui, cloud','Oui, locale','Non','Je ne sais pas'].map(v => <button key={v} onClick={() => single('sauvegarde', v)} style={sel(v, form.sauvegarde)}>{v}</button>)}
       </div>
-      <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-        {loading ? 'Envoi...' : <><Send size={16} /> Envoyer ma demande</>}
-      </button>
-    </form>
+      <label className="fl">Utilisez-vous Microsoft 365 / Google Workspace ?</label>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        {['Microsoft 365','Google Workspace','Messagerie locale','Aucun'].map(v => <button key={v} onClick={() => single('m365', v)} style={sel(v, form.m365)}>{v}</button>)}
+      </div>
+      <label className="fl">Vos besoins prioritaires</label>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+        {['🔐 Cybersécurité','☁️ Sauvegarde','🔧 Maintenance','📧 Messagerie pro','🌐 Réseau / Wi-Fi','🎧 Support utilisateurs'].map(v => (
+          <button key={v} onClick={() => multi(v)} style={selM(v)}>{v}</button>
+        ))}
+      </div>
+      <label className="fl">Message complémentaire</label>
+      <textarea className="fc" value={form.message} onChange={h('message')} style={{ height: '72px', resize: 'none' }} placeholder="Décrivez votre contexte ou vos contraintes…" />
+      <button onClick={submit} disabled={loading} className="sbtn" style={{ marginTop: '4px' }}>{loading ? 'Envoi...' : 'Envoyer ma demande'}</button>
+    </div>
   )
 }

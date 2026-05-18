@@ -28,8 +28,8 @@ export default function InscriptionPage() {
     if (error) {
       toast.error(error.message)
     } else if (data.user) {
-      const updates = { prenom: form.prenom, nom: form.nom, telephone: form.tel }
-      await (supabase.from('profiles') as any).update(updates).eq('id', data.user.id)
+      // Mettre à jour le profil
+      await supabase.from('profiles').update({ prenom: form.prenom, nom: form.nom, telephone: form.tel } as any).eq('id', data.user.id)
       toast.success('Compte créé ! Vous êtes connecté.')
       router.push('/espace-client/tableau-de-bord')
       router.refresh()
@@ -90,4 +90,3 @@ export default function InscriptionPage() {
     </div>
   )
 }
-
