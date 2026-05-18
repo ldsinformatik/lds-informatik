@@ -1,101 +1,103 @@
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Clock, Facebook, Instagram } from 'lucide-react'
 
-interface FooterProps { boutique: Record<string, string> }
+const zones = ['Troyes','Aube','Saint-André-les-Vergers','Sainte-Savine','La Chapelle-Saint-Luc','Saint-Julien-les-Villas','Pont-Sainte-Marie','Barberey-Saint-Sulpice','Rosières-près-Troyes','Bar-sur-Aube','Bar-sur-Seine','Nogent-sur-Seine','Romilly-sur-Seine','Arcis-sur-Aube','Chaource','Ervy-le-Châtel','Les Riceys','Vitry-le-François','Brienne-le-Château','Vendeuvre-sur-Barse','Mussy-sur-Seine','Vendœuvres']
 
-export default function Footer({ boutique }: FooterProps) {
+export default function Footer({ boutique }: { boutique: Record<string, string> }) {
   const year = new Date().getFullYear()
   return (
-    <footer className="bg-[#021634] text-white/70 pt-14 pb-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+    <footer className="footer" style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '40px 32px 20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr', gap: '32px', marginBottom: '32px' }} className="footer-grid">
 
-          {/* Brand */}
-          <div>
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 bg-[#004AAD] rounded-xl flex items-center justify-center">
-                <span className="text-white font-black text-xs">LDS</span>
-              </div>
-              <div>
-                <div className="text-white font-bold text-sm">INFORMATIK</div>
-                <div className="text-white/40 text-xs">Troyes, Aube</div>
-              </div>
-            </div>
-            <p className="text-sm leading-relaxed mb-4">
-              Votre expert informatique à Troyes depuis 2023. Réparation, vente et services B2B.
-            </p>
-            <div className="flex gap-3">
-              {boutique.facebook && (
-                <a href={boutique.facebook} target="_blank" rel="noopener"
-                  className="w-9 h-9 bg-white/5 hover:bg-[#004AAD] rounded-lg flex items-center justify-center transition-all">
-                  <Facebook size={16} />
-                </a>
-              )}
-              {boutique.instagram && (
-                <a href={boutique.instagram} target="_blank" rel="noopener"
-                  className="w-9 h-9 bg-white/5 hover:bg-[#004AAD] rounded-lg flex items-center justify-center transition-all">
-                  <Instagram size={16} />
-                </a>
-              )}
-            </div>
+        {/* Col 1 — Brand */}
+        <div className="footer-col">
+          <div style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--secondary)', marginBottom: '12px' }}>
+            LDS <span style={{ color: 'var(--primary)' }}>INFORMATIK</span>
           </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Services</h3>
-            <ul className="space-y-2.5 text-sm">
-              <li><Link href="/reparer" className="hover:text-white transition-colors">Réparation smartphone</Link></li>
-              <li><Link href="/reparer" className="hover:text-white transition-colors">Réparation PC/Mac</Link></li>
-              <li><Link href="/acheter" className="hover:text-white transition-colors">Produits reconditionnés</Link></li>
-              <li><Link href="/infogerance" className="hover:text-white transition-colors">Infogérance B2B</Link></li>
-            </ul>
-          </div>
-
-          {/* Légal */}
-          <div>
-            <h3 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Entreprise</h3>
-            <ul className="space-y-2.5 text-sm">
-              <li><Link href="/accueil#avis" className="hover:text-white transition-colors">Avis clients</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-              <li><Link href="/espace-client/connexion" className="hover:text-white transition-colors">Espace client</Link></li>
-              <li className="pt-2 border-t border-white/10">
-                <span className="text-xs text-white/40">SIRET : {boutique.siret || '94895280900044'}</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Contact</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex gap-2.5">
-                <MapPin size={14} className="text-[#004AAD] flex-shrink-0 mt-0.5" />
-                <span>{boutique.adresse || '145 Av. Pierre Brossolette'}, {boutique.cp || '10000'} {boutique.ville || 'Troyes'}</span>
-              </li>
-              <li className="flex gap-2.5">
-                <Phone size={14} className="text-[#004AAD] flex-shrink-0 mt-0.5" />
-                <a href={`tel:${boutique.tel?.replace(/\s/g,'')}`} className="hover:text-white">{boutique.tel || '07 45 01 41 27'}</a>
-              </li>
-              <li className="flex gap-2.5">
-                <Mail size={14} className="text-[#004AAD] flex-shrink-0 mt-0.5" />
-                <a href={`mailto:${boutique.email}`} className="hover:text-white">{boutique.email || 'contact@ldsinformatik.fr'}</a>
-              </li>
-              <li className="flex gap-2.5">
-                <Clock size={14} className="text-[#004AAD] flex-shrink-0 mt-0.5" />
-                <div>
-                  <div>Lun-Ven : 9h30-13h / 14h30-18h30</div>
-                  <div>Sam : 9h30-14h</div>
-                </div>
-              </li>
-            </ul>
+          <p style={{ fontSize: '12.5px', color: 'var(--gray)', lineHeight: 1.7, marginBottom: '16px' }}>
+            Votre expert informatique à Troyes depuis 2023. Réparation, vente et services B2B pour particuliers et professionnels.
+          </p>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {[
+              { href: boutique.facebook || '#', label: 'FB', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+              { href: boutique.instagram || '#', label: 'IG', svg: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> },
+              { href: boutique.tiktok || '#', label: 'TK', svg: <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg> },
+            ].map(s => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener" style={{ width: '34px', height: '34px', borderRadius: '9px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--gray)', textDecoration: 'none', transition: 'all .18s' }}>{s.svg}</a>
+            ))}
           </div>
         </div>
 
-        <div className="border-t border-white/8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
-          <span>© {year} LDS INFORMATIK — Tous droits réservés</span>
-          <span>Hébergé sur Vercel · Base Supabase</span>
+        {/* Col 2 — Services */}
+        <div className="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><Link href="/reparer" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Réparation</Link></li>
+            <li><Link href="/acheter" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>PC sur mesure</Link></li>
+            <li><Link href="/acheter" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Vente reconditionnée</Link></li>
+            <li><Link href="/infogerance" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Infogérance B2B</Link></li>
+            <li><a href={boutique.teamviewer || 'https://teamviewer.com'} target="_blank" rel="noopener" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Assistance à distance</a></li>
+          </ul>
+        </div>
+
+        {/* Col 3 — Entreprise */}
+        <div className="footer-col">
+          <h4>Entreprise</h4>
+          <ul>
+            <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>À propos</span></li>
+            <li><a href={boutique.google_avis || 'https://share.google/DMnd40szJ82iOlb9I'} target="_blank" rel="noopener" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Avis clients</a></li>
+            <li><Link href="/contact" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Contact</Link></li>
+            <li><Link href="/espace-client/connexion" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Espace client</Link></li>
+          </ul>
+        </div>
+
+        {/* Col 4 — Légal */}
+        <div className="footer-col">
+          <h4>Infos légales</h4>
+          <ul>
+            <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>Mentions légales</span></li>
+            <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>CGV</span></li>
+            <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>Confidentialité</span></li>
+            <li style={{ marginTop: '8px', fontSize: '11px', color: 'var(--gray)' }}>SIRET : {boutique.siret || '94895280900044'}</li>
+          </ul>
+        </div>
+
+        {/* Col 5 — Contact */}
+        <div className="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li style={{ fontSize: '12.5px', color: 'var(--gray)' }}>📍 {boutique.adresse || '145 Av. Pierre Brossolette'}</li>
+            <li style={{ fontSize: '12.5px', color: 'var(--gray)' }}>{boutique.cp || '10000'} {boutique.ville || 'Troyes'}</li>
+            <li><a href={`tel:${(boutique.tel || '0745014127').replace(/\s/g,'')}`} style={{ fontSize: '12.5px', color: 'var(--gray)', textDecoration: 'none' }}>📞 {boutique.tel || '07 45 01 41 27'}</a></li>
+            <li><a href={`mailto:${boutique.email || 'contact@ldsinformatik.fr'}`} style={{ fontSize: '12.5px', color: 'var(--gray)', textDecoration: 'none' }}>✉️ {boutique.email || 'contact@ldsinformatik.fr'}</a></li>
+            <li style={{ fontSize: '12px', color: 'var(--gray)', marginTop: '4px' }}>Lun-Ven 9h30-13h / 14h30-18h30</li>
+            <li style={{ fontSize: '12px', color: 'var(--gray)' }}>Sam 9h30-14h</li>
+          </ul>
         </div>
       </div>
+
+      {/* Zones desservies */}
+      <div style={{ borderTop: '1px solid var(--border)', paddingTop: '20px', marginBottom: '16px' }}>
+        <p style={{ fontSize: '11px', fontWeight: 700, color: 'var(--gray)', textTransform: 'uppercase', letterSpacing: '.08em', marginBottom: '10px' }}>Zones desservies</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+          {zones.map(z => (
+            <span key={z} style={{ fontSize: '11.5px', color: 'var(--primary)', background: 'rgba(0,74,173,.07)', padding: '3px 10px', borderRadius: '99px', fontWeight: 500 }}>{z}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="footer-bot" style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', fontSize: '12px', color: 'var(--gray)', textAlign: 'center' }}>
+        © {year} LDS INFORMATIK — Tous droits réservés
+      </div>
+
+      <style>{`
+        @media(max-width:768px){
+          .footer-grid{grid-template-columns:1fr 1fr!important;}
+          .footer-col:first-child{grid-column:1/-1;}
+        }
+        @media(max-width:480px){
+          .footer-grid{grid-template-columns:1fr!important;}
+        }
+      `}</style>
     </footer>
   )
 }
