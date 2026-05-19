@@ -1,4 +1,3 @@
-cat > /home/claude/lds-informatik/app/\(public\)/accueil/page.tsx << 'ENDOFFILE'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -267,11 +266,4 @@ export default function AccueilPage() {
       </div>
     </>
   )
-}
-ENDOFFILE
-echo "✅ Done — $(wc -l < /home/claude/lds-informatik/app/\(public\)/accueil/page.tsx) lines"
-{
-  "returncode" : 0,
-  "stdout" : "✅ Done — 269 lines\n",
-  "stderr" : ""
 }
