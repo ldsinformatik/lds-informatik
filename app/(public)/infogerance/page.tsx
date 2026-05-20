@@ -60,7 +60,7 @@ const PRESTATIONS = [
   {
     ico: '🤝',
     title: 'DSI externalisé (vCIO)',
-    desc: 'Un directeur informatique virtuel dédié à votre structure. Conseil stratégique, gestion des prestataires, budgétisation IT, projets de transformation numérique — sans les coûts d'un salarié senior.',
+    desc: 'Un directeur informatique virtuel dédié à votre structure. Conseil stratégique, gestion des prestataires, budgétisation IT, projets de transformation numérique — sans les coûts d\'un salarié senior.',
     tags: ['Conseil IT', 'Stratégie', 'Projets numériques'],
   },
 ];
