@@ -132,14 +132,14 @@ export default function ContactPage() {
       >
         <div className="stag reveal">Nous contacter</div>
         <div className="stitle reveal">
-          Venez nous <strong>rencontrer</strong>
+          Un accompagnement de <strong>proximité</strong>
         </div>
         <div
           className="ssub"
           style={{ marginTop: 10, maxWidth: 520 }}
         >
-          Sans rendez-vous — Passez directement en boutique pour un diagnostic
-          et une prise en charge immédiate.
+          Besoin d'un dépannage, d'un conseil ou d'un accompagnement IT ?
+          On vous accueile directement en boutique à Troyes sans rendez-vous.
         </div>
       </div>
 
@@ -177,7 +177,7 @@ export default function ContactPage() {
                 marginBottom: 18,
               }}
             >
-              📍 Adresse
+              📍 Notre boutique
             </div>
             <div
               style={{
