@@ -726,12 +726,10 @@ export default function ContactPage() {
             }}
           >
             <option value="">Sélectionner un service…</option>
-            <option>Réparation / dépannage urgent</option>
+            <option>Dépannage & Réparation</option>
             <option>PC sur mesure</option>
             <option>Achat de matériel</option>
-            <option>Contrat d&apos;infogérance</option>
-            <option>Audit cybersécurité</option>
-            <option>Cloud &amp; hébergement</option>
+            <option>Infogérance, Cloud & Sécurité</option>
           </select>
 
           {/* Message */}
