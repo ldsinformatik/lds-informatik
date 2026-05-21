@@ -401,7 +401,7 @@ export default function ContactPage() {
               </div>
             </div>
             <a
-              href="https://teamviewer.com/ldsinformatik"
+              href="https://get.teamviewer.com/ldsinformatik"
               target="_blank"
               rel="noopener noreferrer"
               style={{
