@@ -364,12 +364,6 @@ export default function ContactPage() {
                     fontWeight: 600,
                     color: "var(--secondary)",
                   }}
-                >
-                  Dimanche
-                </span>
-                <span style={{ fontSize: 13, color: "var(--gray)" }}>
-                  Fermé
-                </span>
               </div>
             </div>
           </div>
