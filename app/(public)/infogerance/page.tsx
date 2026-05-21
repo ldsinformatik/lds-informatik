@@ -2,18 +2,12 @@
 
 import { useState, useRef } from 'react';
 
-/* ══════════════════════════════════
-   EMAILJS CONFIG
-══════════════════════════════════ */
 const EJS = {
   public_key:  'zFd-xKZE3XUM-ClwJ',
   service_id:  'lds_informatik',
   template_id: 'template_kbtdi8i',
 };
 
-/* ══════════════════════════════════
-   PRESTATIONS DATA
-══════════════════════════════════ */
 const PRESTATIONS = [
   {
     ico: '🖥',
@@ -60,7 +54,7 @@ const PRESTATIONS = [
   {
     ico: '🤝',
     title: 'DSI externalisé (vCIO)',
-    desc: 'Un directeur informatique virtuel dédié à votre structure. Conseil stratégique, gestion des prestataires, budgétisation IT, projets de transformation numérique - sans les coûts d\'un salarié senior.',
+    desc: "Un directeur informatique virtuel dédié à votre structure. Conseil stratégique, gestion des prestataires, budgétisation IT, projets de transformation numérique — sans les coûts d'un salarié senior.",
     tags: ['Conseil IT', 'Stratégie', 'Projets numériques'],
   },
 ];
@@ -163,34 +157,103 @@ export default function InfogerancePage() {
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
-        .sh { padding: 40px 32px 24px; background: #fff; border-bottom: 1px solid var(--border); }
+
+        /* ── Header hero ── */
+        .ig-hero {
+          background: linear-gradient(135deg, #004AAD 0%, #162a68 100%);
+          padding: 52px 40px 48px;
+          color: #fff;
+        }
+        .ig-hero-tag {
+          display: inline-flex; align-items: center; gap: 7px;
+          background: rgba(255,255,255,.15); border-radius: 999px;
+          font-size: 11.5px; font-weight: 700; letter-spacing: .08em;
+          text-transform: uppercase; padding: 6px 14px; margin-bottom: 20px;
+        }
+        .ig-hero-title {
+          font-size: clamp(1.8rem, 4vw, 2.8rem);
+          font-weight: 800; line-height: 1.2; margin-bottom: 16px;
+        }
+        .ig-hero-title strong { opacity: 1; }
+        .ig-hero-desc {
+          font-size: 15px; opacity: .88; max-width: 580px;
+          line-height: 1.75; margin-bottom: 10px;
+        }
+        .ig-hero-sub {
+          font-size: 13px; opacity: .7; margin-bottom: 32px;
+        }
+        .ig-hero-price {
+          display: inline-flex; align-items: baseline; gap: 6px;
+          background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+          border-radius: 12px; padding: 12px 20px; margin-bottom: 32px;
+        }
+        .ig-hero-price-main {
+          font-size: 1.6rem; font-weight: 800;
+        }
+        .ig-hero-price-sub {
+          font-size: 12.5px; opacity: .75;
+        }
+        .ig-cta-btn {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: #fff; color: var(--primary);
+          border: none; padding: 14px 28px; border-radius: 14px;
+          font-size: 14px; font-weight: 700; cursor: pointer;
+          box-shadow: 0 8px 24px rgba(0,0,0,.18); transition: all .2s;
+        }
+        .ig-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.22); }
+
+        /* ── Prestations ── */
+        .ig-prests-section { padding: 48px 40px 56px; background: var(--bg); }
+        .ig-prests-head { margin-bottom: 28px; }
         .stag { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--primary); font-weight: 700; margin-bottom: 8px; }
-        .stitle { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; color: var(--secondary); }
+        .stitle { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; color: var(--secondary); margin-bottom: 4px; }
         .stitle strong { color: var(--primary); }
-        .ssub { font-size: 13.5px; color: var(--gray); margin-top: 6px; }
-        .ig-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 28px 32px; align-items: start; }
-        .ig-left p { font-size: 13.5px; color: var(--gray); line-height: 1.75; margin-bottom: 16px; }
-        .ig-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,74,173,.08); color: var(--primary); padding: 8px 16px; border-radius: 999px; font-size: 12.5px; font-weight: 600; margin-bottom: 20px; }
-        .ig-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-        .ig-stat { background: #fff; border-radius: 14px; padding: 16px; box-shadow: var(--shadow); border-top: 3px solid var(--primary); }
-        .ig-stat-num { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
-        .ig-stat-lbl { font-size: 12px; color: var(--gray); margin-top: 4px; }
-        .ig-price-box { background: linear-gradient(135deg, #004AAD 0%, #162a68 100%); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; color: #fff; }
-        .ig-price-box .price-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; opacity: .7; margin-bottom: 6px; }
-        .ig-price-box .price-value { font-size: 2rem; font-weight: 800; }
-        .ig-price-box .price-sub { font-size: 12.5px; opacity: .8; margin-top: 6px; line-height: 1.5; }
-        .ig-prests { display: grid; gap: 14px; margin-bottom: 28px; }
-        .ig-prest-card { background: #fff; border-radius: 14px; padding: 18px 20px; border: 1px solid var(--border); box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s; }
-        .ig-prest-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(0,74,173,.1); }
-        .ig-prest-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-        .ig-prest-ico { width: 40px; height: 40px; background: var(--light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-        .ig-prest-title { font-size: 14px; font-weight: 700; color: var(--secondary); }
-        .ig-prest-desc { font-size: 13px; color: var(--gray); line-height: 1.65; margin-bottom: 10px; }
+        .ig-prests { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .ig-prest-card {
+          background: #fff; border-radius: 16px; padding: 22px 24px;
+          border: 1px solid var(--border); box-shadow: var(--shadow);
+          transition: transform .2s, box-shadow .2s;
+        }
+        .ig-prest-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0,74,173,.1); }
+        .ig-prest-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .ig-prest-ico {
+          width: 44px; height: 44px; background: var(--light);
+          border-radius: 12px; display: flex; align-items: center;
+          justify-content: center; font-size: 20px; flex-shrink: 0;
+        }
+        .ig-prest-title { font-size: 14.5px; font-weight: 700; color: var(--secondary); }
+        .ig-prest-desc { font-size: 13px; color: var(--gray); line-height: 1.65; margin-bottom: 12px; }
         .ig-prest-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .ig-prest-tag { font-size: 10.5px; font-weight: 600; color: var(--primary); background: var(--light); padding: 3px 9px; border-radius: 20px; }
-        .ig-form-box { background: #fff; border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); position: sticky; top: 76px; }
-        .ig-form-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--primary); font-weight: 700; margin-bottom: 18px; display: block; }
-        .ig-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .ig-prest-tag {
+          font-size: 10.5px; font-weight: 600; color: var(--primary);
+          background: var(--light); padding: 3px 10px; border-radius: 20px;
+        }
+
+        /* ── Urgence ── */
+        .urg-box {
+          margin: 0 40px 40px;
+          background: rgba(14,166,110,.1); border: .5px solid rgba(14,166,110,.3);
+          border-radius: 12px; padding: 14px 20px;
+          display: flex; align-items: center; gap: 12px;
+        }
+        .urg-dot {
+          width: 8px; height: 8px; background: #0EA66E;
+          border-radius: 50%; flex-shrink: 0; animation: bl 1.5s infinite;
+        }
+        @keyframes bl { 0%,100%{opacity:1} 50%{opacity:.2} }
+        .urg-t { font-size: 13px; color: var(--gray); }
+        .urg-t strong { color: #0EA66E; }
+
+        /* ── Form section ── */
+        .ig-form-section { background: #fff; border-top: 1px solid var(--border); padding: 52px 40px; }
+        .ig-form-inner { max-width: 680px; margin: 0 auto; }
+        .ig-form-tag {
+          font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+          color: var(--primary); font-weight: 700; margin-bottom: 6px; display: block;
+        }
+        .ig-form-title { font-size: 1.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px; }
+        .ig-form-sub { font-size: 13.5px; color: var(--gray); margin-bottom: 30px; }
+        .ig-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .fl { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--primary); display: block; margin-bottom: 6px; font-weight: 600; }
         .fc { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; padding: 10px 13px; border-radius: 10px; outline: none; transition: border-color .18s; margin-bottom: 14px; }
         .fc:focus { border-color: var(--primary); background: #fff; }
@@ -200,190 +263,170 @@ export default function InfogerancePage() {
         .qopt { background: #fff; border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 12.5px; font-weight: 500; color: var(--secondary); cursor: pointer; transition: all .18s; user-select: none; }
         .qopt:hover { border-color: var(--primary); color: var(--primary); }
         .qopt.sel { background: var(--primary); border-color: var(--primary); color: #fff; }
-        .sbtn { width: 100%; font-size: 13.5px; font-weight: 700; color: #fff; background: var(--primary); border: none; padding: 13px; border-radius: 12px; cursor: pointer; transition: all .2s; box-shadow: 0 6px 16px rgba(0,74,173,.22); }
+        .sbtn { width: 100%; font-size: 13.5px; font-weight: 700; color: #fff; background: var(--primary); border: none; padding: 14px; border-radius: 12px; cursor: pointer; transition: all .2s; box-shadow: 0 6px 16px rgba(0,74,173,.22); }
         .sbtn:hover { background: var(--secondary); transform: translateY(-1px); }
         .sbtn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-        .ig-success { text-align: center; padding: 28px 16px; }
-        .ig-success-ico { font-size: 2.5rem; margin-bottom: 10px; }
-        .ig-success h3 { font-size: 1.1rem; font-weight: 800; color: var(--secondary); margin-bottom: 12px; }
-        .ig-success p { font-size: 13px; color: var(--gray); margin-bottom: 18px; line-height: 1.8; }
-        .btn-s { display: inline-flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 600; color: var(--secondary); background: #fff; border: 1px solid var(--border); padding: 10px 20px; border-radius: 12px; cursor: pointer; transition: all .2s; }
+        .ig-success { text-align: center; padding: 36px 16px; }
+        .ig-success-ico { font-size: 2.8rem; margin-bottom: 12px; }
+        .ig-success h3 { font-size: 1.2rem; font-weight: 800; color: var(--secondary); margin-bottom: 12px; }
+        .ig-success p { font-size: 13px; color: var(--gray); margin-bottom: 20px; line-height: 1.8; }
+        .btn-s { display: inline-flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 600; color: var(--secondary); background: #fff; border: 1px solid var(--border); padding: 10px 22px; border-radius: 12px; cursor: pointer; transition: all .2s; }
         .btn-s:hover { border-color: var(--primary); color: var(--primary); }
-        .urg-box { margin-top: 20px; background: rgba(14,166,110,.12); border: .5px solid rgba(14,166,110,.3); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
-        .urg-dot { width: 7px; height: 7px; background: #0EA66E; border-radius: 50%; flex-shrink: 0; animation: bl 1.5s infinite; }
-        @keyframes bl { 0%,100%{opacity:1} 50%{opacity:.2} }
-        .urg-t { font-size: 12px; color: var(--gray); }
-        .urg-t strong { color: #0EA66E; }
-        .ig-cta-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: #fff; border: none; padding: 13px 26px; border-radius: 13px; font-size: 13.5px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 20px rgba(0,74,173,.22); transition: all .2s; margin-bottom: 24px; }
-        .ig-cta-btn:hover { background: var(--secondary); transform: translateY(-2px); }
+
+        /* Responsive */
         @media (max-width: 900px) {
-          .ig-layout { grid-template-columns: 1fr; padding: 16px 12px; }
-          .ig-form-box { position: static; }
+          .ig-hero { padding: 36px 18px 36px; }
+          .ig-prests-section { padding: 32px 14px 36px; }
+          .ig-prests { grid-template-columns: 1fr; }
+          .urg-box { margin: 0 14px 28px; }
+          .ig-form-section { padding: 36px 14px; }
           .ig-form-row { grid-template-columns: 1fr; }
-          .sh { padding: 22px 16px 14px; }
         }
       `}</style>
 
-      {/* HEADER */}
-      <div className="sh">
-        <div className="stag">Solutions professionnelles</div>
-        <div className="stitle">Infogérance & accompagnement <strong>IT</strong></div>
-        <div className="ssub">TPE · PME · Professions libérales · Associations</div>
-      </div>
+      {/* ═══════════════════════════════
+          HERO — Titre + Desc + CTA
+      ═══════════════════════════════ */}
+      <div className="ig-hero">
+        <div className="ig-hero-tag">💼 Solutions professionnelles</div>
+        <h1 className="ig-hero-title">
+          Infogérance &amp; accompagnement <strong>IT</strong>
+        </h1>
+        <p className="ig-hero-desc">
+          LDS INFORMATIK prend en charge votre informatique de A à Z — maintenance, sécurité,
+          support utilisateurs, cloud — pour que vous puissiez vous concentrer sur votre métier.
+        </p>
+        <p className="ig-hero-sub">TPE · PME · Professions libérales · Associations</p>
 
-      {/* LAYOUT */}
-      <div className="ig-layout">
+        <div className="ig-hero-price">
+          <span className="ig-hero-price-main">À partir de 35 €</span>
+          <span className="ig-hero-price-sub">HT / mois / poste · Devis gratuit sous 24h</span>
+        </div>
 
-        {/* LEFT */}
-        <div className="ig-left">
-          <div className="ig-badge">💼 Votre DSI externalisé</div>
-
-          <p>LDS INFORMATIK accompagne les petites entreprises dans la gestion et la sécurisation de leur informatique. Une approche flexible, moderne et adaptée aux petites structures.</p>
-          <p>Nous ne sommes pas un simple prestataire - nous sommes votre <strong>partenaire de confiance</strong>, disponible et réactif au quotidien.</p>
-
-          {/* Prix */}
-          <div className="ig-price-box">
-            <div className="price-label">Tarif indicatif</div>
-            <div className="price-value">
-              À partir de 35 €{' '}
-              <span style={{ fontSize: '1rem', fontWeight: 400, opacity: .8 }}>HT / mois / poste</span>
-            </div>
-            <div className="price-sub">
-              Devis personnalisé gratuit sous 24h · Contrat sans engagement minimum<br />
-              Tarif dégressif selon nombre de postes et services inclus
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="ig-stats">
-            <div className="ig-stat">
-              <div className="ig-stat-num">~ 2h</div>
-              <div className="ig-stat-lbl">Délai d&apos;intervention moyen</div>
-            </div>
-            <div className="ig-stat">
-              <div className="ig-stat-num">99,9 %</div>
-              <div className="ig-stat-lbl">Taux de satisfaction</div>
-            </div>
-          </div>
-
+        <div>
           <button className="ig-cta-btn" onClick={scrollToForm}>
             Demander un devis gratuit →
           </button>
+        </div>
+      </div>
 
-          {/* Prestations */}
-          <div style={{ marginBottom: 8 }}>
-            <div className="stag">Nos prestations</div>
-            <div className="stitle" style={{ marginBottom: 20 }}>
-              Ce que nous <strong>gérons</strong> pour vous
+      {/* ═══════════════════════════════
+          PRESTATIONS
+      ═══════════════════════════════ */}
+      <div className="ig-prests-section">
+        <div className="ig-prests-head">
+          <div className="stag">Nos prestations</div>
+          <div className="stitle">Ce que nous <strong>gérons</strong> pour vous</div>
+        </div>
+        <div className="ig-prests">
+          {PRESTATIONS.map((p, i) => (
+            <div key={i} className="ig-prest-card">
+              <div className="ig-prest-head">
+                <div className="ig-prest-ico">{p.ico}</div>
+                <div className="ig-prest-title">{p.title}</div>
+              </div>
+              <div className="ig-prest-desc">{p.desc}</div>
+              <div className="ig-prest-tags">
+                {p.tags.map(tag => (
+                  <span key={tag} className="ig-prest-tag">{tag}</span>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div className="ig-prests">
-            {PRESTATIONS.map((p, i) => (
-              <div key={i} className="ig-prest-card">
-                <div className="ig-prest-head">
-                  <div className="ig-prest-ico">{p.ico}</div>
-                  <div className="ig-prest-title">{p.title}</div>
-                </div>
-                <div className="ig-prest-desc">{p.desc}</div>
-                <div className="ig-prest-tags">
-                  {p.tags.map(tag => (
-                    <span key={tag} className="ig-prest-tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="urg-box">
-            <div className="urg-dot" />
-            <div className="urg-t"><strong>Urgence ?</strong> Hotline disponible 6j/7 — réponse sous 1h</div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* RIGHT — FORM */}
-        <div ref={formRef}>
-          <div className="ig-form-box">
-            {success ? (
-              <div className="ig-success">
-                <div className="ig-success-ico">✅</div>
-                <h3>Demande envoyée !</h3>
-                <p>Nous avons bien reçu votre demande, nous vous contacterons dans un délai de 2h.<br /><br />Bien cordialement,</p>
-                <button className="btn-s" onClick={igReset}>Nouvelle demande</button>
+      {/* Urgence */}
+      <div className="urg-box">
+        <div className="urg-dot" />
+        <div className="urg-t"><strong>Urgence ?</strong> Hotline disponible 6j/7 — réponse sous 1h</div>
+      </div>
+
+      {/* ═══════════════════════════════
+          FORMULAIRE
+      ═══════════════════════════════ */}
+      <div className="ig-form-section" ref={formRef}>
+        <div className="ig-form-inner">
+          {success ? (
+            <div className="ig-success">
+              <div className="ig-success-ico">✅</div>
+              <h3>Demande envoyée !</h3>
+              <p>Nous avons bien reçu votre demande, nous vous contacterons dans un délai de 2h.<br /><br />Bien cordialement,</p>
+              <button className="btn-s" onClick={igReset}>Nouvelle demande</button>
+            </div>
+          ) : (
+            <>
+              <span className="ig-form-tag">Formulaire de contact</span>
+              <div className="ig-form-title">Parlons de votre projet informatique</div>
+              <p className="ig-form-sub">Devis personnalisé gratuit · Réponse sous 24h · Sans engagement</p>
+
+              <div className="ig-form-row">
+                <div><label className="fl">Prénom *</label><input className="fc" type="text" placeholder="Jean" value={prenom} onChange={e => setPrenom(e.target.value)} /></div>
+                <div><label className="fl">Nom *</label><input className="fc" type="text" placeholder="Dupont" value={nom} onChange={e => setNom(e.target.value)} /></div>
               </div>
-            ) : (
-              <>
-                <span className="ig-form-tag">Échangeons sur vos besoins informatiques</span>
 
-                <div className="ig-form-row">
-                  <div><label className="fl">Prénom *</label><input className="fc" type="text" placeholder="Jean" value={prenom} onChange={e => setPrenom(e.target.value)} /></div>
-                  <div><label className="fl">Nom *</label><input className="fc" type="text" placeholder="Dupont" value={nom} onChange={e => setNom(e.target.value)} /></div>
-                </div>
+              <label className="fl">Entreprise *</label>
+              <input className="fc" type="text" placeholder="Ma société" value={entreprise} onChange={e => setEntreprise(e.target.value)} />
 
-                <label className="fl">Entreprise *</label>
-                <input className="fc" type="text" placeholder="Ma société" value={entreprise} onChange={e => setEntreprise(e.target.value)} />
+              <div className="ig-form-row">
+                <div><label className="fl">Email *</label><input className="fc" type="email" placeholder="jean@société.fr" value={email} onChange={e => setEmail(e.target.value)} /></div>
+                <div><label className="fl">Téléphone *</label><input className="fc" type="tel" placeholder="06 00 00 00 00" value={tel} onChange={e => setTel(e.target.value)} /></div>
+              </div>
 
-                <div className="ig-form-row">
-                  <div><label className="fl">Email *</label><input className="fc" type="email" placeholder="jean@société.fr" value={email} onChange={e => setEmail(e.target.value)} /></div>
-                  <div><label className="fl">Téléphone *</label><input className="fc" type="tel" placeholder="06 00 00 00 00" value={tel} onChange={e => setTel(e.target.value)} /></div>
-                </div>
+              <label className="fl">Nombre de postes *</label>
+              <select className="fc" value={postes} onChange={e => setPostes(e.target.value)}>
+                <option value="">Sélectionner…</option>
+                <option>1 – 3 postes</option>
+                <option>4 – 10 postes</option>
+                <option>11 – 25 postes</option>
+                <option>26 – 50 postes</option>
+                <option>50+ postes</option>
+              </select>
 
-                <label className="fl">Nombre de postes *</label>
-                <select className="fc" value={postes} onChange={e => setPostes(e.target.value)}>
-                  <option value="">Sélectionner…</option>
-                  <option>1 – 3 postes</option>
-                  <option>4 – 10 postes</option>
-                  <option>11 – 25 postes</option>
-                  <option>26 – 50 postes</option>
-                  <option>50+ postes</option>
-                </select>
+              <label className="fl">Avez-vous déjà un prestataire informatique ?</label>
+              <div className="qopts">
+                {['Oui', 'Non', 'Gestion interne'].map(v => (
+                  <div key={v} className={`qopt${igData.prestataire === v ? ' sel' : ''}`} onClick={() => igSingle('prestataire', v)}>{v}</div>
+                ))}
+              </div>
 
-                <label className="fl">Avez-vous déjà un prestataire informatique ?</label>
-                <div className="qopts">
-                  {['Oui', 'Non', 'Gestion interne'].map(v => (
-                    <div key={v} className={`qopt${igData.prestataire === v ? ' sel' : ''}`} onClick={() => igSingle('prestataire', v)}>{v}</div>
-                  ))}
-                </div>
+              <label className="fl">Avez-vous une solution de sauvegarde ?</label>
+              <div className="qopts">
+                {['Oui, cloud', 'Oui, locale', 'Non', 'Je ne sais pas'].map(v => (
+                  <div key={v} className={`qopt${igData.sauvegarde === v ? ' sel' : ''}`} onClick={() => igSingle('sauvegarde', v)}>{v}</div>
+                ))}
+              </div>
 
-                <label className="fl">Avez-vous une solution de sauvegarde ?</label>
-                <div className="qopts">
-                  {['Oui, cloud', 'Oui, locale', 'Non', 'Je ne sais pas'].map(v => (
-                    <div key={v} className={`qopt${igData.sauvegarde === v ? ' sel' : ''}`} onClick={() => igSingle('sauvegarde', v)}>{v}</div>
-                  ))}
-                </div>
+              <label className="fl">Utilisez-vous Microsoft 365 / Google Workspace ?</label>
+              <div className="qopts">
+                {['Microsoft 365', 'Google Workspace', 'Messagerie locale', 'Aucun'].map(v => (
+                  <div key={v} className={`qopt${igData.m365 === v ? ' sel' : ''}`} onClick={() => igSingle('m365', v)}>{v}</div>
+                ))}
+              </div>
 
-                <label className="fl">Utilisez-vous Microsoft 365 / Google Workspace ?</label>
-                <div className="qopts">
-                  {['Microsoft 365', 'Google Workspace', 'Messagerie locale', 'Aucun'].map(v => (
-                    <div key={v} className={`qopt${igData.m365 === v ? ' sel' : ''}`} onClick={() => igSingle('m365', v)}>{v}</div>
-                  ))}
-                </div>
+              <label className="fl">Vos besoins prioritaires</label>
+              <div className="qopts">
+                {[
+                  ['🔐 Cybersécurité', 'Cybersécurité'],
+                  ['☁️ Sauvegarde', 'Sauvegarde'],
+                  ['🔧 Maintenance', 'Maintenance'],
+                  ['📧 Messagerie pro', 'Messagerie pro'],
+                  ['🌐 Réseau / Wi-Fi', 'Réseau / Wi-Fi'],
+                  ['🎧 Support utilisateurs', 'Support utilisateurs'],
+                ].map(([label, val]) => (
+                  <div key={val} className={`qopt${igData.besoins.includes(val) ? ' sel' : ''}`} onClick={() => igMulti(val)}>{label}</div>
+                ))}
+              </div>
 
-                <label className="fl">Vos besoins prioritaires</label>
-                <div className="qopts">
-                  {[
-                    ['🔐 Cybersécurité', 'Cybersécurité'],
-                    ['☁️ Sauvegarde', 'Sauvegarde'],
-                    ['🔧 Maintenance', 'Maintenance'],
-                    ['📧 Messagerie pro', 'Messagerie pro'],
-                    ['🌐 Réseau / Wi-Fi', 'Réseau / Wi-Fi'],
-                    ['🎧 Support utilisateurs', 'Support utilisateurs'],
-                  ].map(([label, val]) => (
-                    <div key={val} className={`qopt${igData.besoins.includes(val) ? ' sel' : ''}`} onClick={() => igMulti(val)}>{label}</div>
-                  ))}
-                </div>
+              <label className="fl">Message complémentaire</label>
+              <textarea className="fc" placeholder="Décrivez votre contexte ou vos contraintes…" value={msg} onChange={e => setMsg(e.target.value)} />
 
-                <label className="fl">Message complémentaire</label>
-                <textarea className="fc" placeholder="Décrivez votre contexte ou vos contraintes…" value={msg} onChange={e => setMsg(e.target.value)} />
-
-                <button className="sbtn" disabled={!canSubmit || sending} onClick={igSubmit}>
-                  {sending ? 'Envoi en cours…' : 'Envoyer ma demande'}
-                </button>
-              </>
-            )}
-          </div>
+              <button className="sbtn" disabled={!canSubmit || sending} onClick={igSubmit}>
+                {sending ? 'Envoi en cours…' : 'Envoyer ma demande'}
+              </button>
+            </>
+          )}
         </div>
-
       </div>
     </>
   );
