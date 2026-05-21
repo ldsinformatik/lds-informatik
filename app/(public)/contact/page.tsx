@@ -348,29 +348,6 @@ export default function ContactPage() {
                   9h30 - 14h00
                 </span>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "8px 12px",
-                  borderRadius: 8,
-                  opacity: 0.5,
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 600,
-                    color: "var(--secondary)",
-                  }}
-                >
-                  Dimanche
-                </span>
-                <span style={{ fontSize: 13, color: "var(--gray)" }}>
-                  Fermé
-                </span>
-              </div>
             </div>
           </div>
 
