@@ -336,11 +336,6 @@ export default function InfogerancePage() {
         </div>
       </div>
 
-      {/* Urgence */}
-      <div className="urg-box">
-        <div className="urg-dot" />
-        <div className="urg-t"><strong>Urgence ?</strong> Hotline disponible 6j/7 — réponse sous 1h</div>
-      </div>
 
       {/* ═══════════════════════════════
           FORMULAIRE
