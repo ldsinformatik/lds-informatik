@@ -798,7 +798,7 @@ export default function ContactPage() {
               (e.currentTarget as HTMLButtonElement).style.transform = "";
             }}
           >
-            Envoyer ma demande - Réponse sous 1h
+            Envoyer ma demande - Réponse sous 2h
           </button>
         </div>
       </div>
