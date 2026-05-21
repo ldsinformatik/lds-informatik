@@ -308,8 +308,8 @@ export default function AchetezPage() {
       {activeTab === 'vente' && (
         <>
           <div className="sh">
-            <div className="stag">Produits en vente</div>
-            <div className="stitle">Matériel <strong>garanti</strong> &amp; sélectionné avec soin</div>
+            <div className="stag">Nos produits en vente</div>
+            <div className="stitle">Découvrez notre catalogue de produits <strong>garanties</strong> &amp; sélectionnés avec soin</div>
             <div className="ssub">Smartphones · PC · Accessoires · Reconditionné</div>
           </div>
           <div className="cards">
