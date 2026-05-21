@@ -60,7 +60,7 @@ const PRESTATIONS = [
   {
     ico: '🤝',
     title: 'DSI externalisé (vCIO)',
-    desc: 'Un directeur informatique virtuel dédié à votre structure. Conseil stratégique, gestion des prestataires, budgétisation IT, projets de transformation numérique — sans les coûts d\'un salarié senior.',
+    desc: 'Un directeur informatique virtuel dédié à votre structure. Conseil stratégique, gestion des prestataires, budgétisation IT, projets de transformation numérique - sans les coûts d\'un salarié senior.',
     tags: ['Conseil IT', 'Stratégie', 'Projets numériques'],
   },
 ];
@@ -239,7 +239,7 @@ export default function InfogerancePage() {
           <div className="ig-badge">💼 Votre DSI externalisé</div>
 
           <p>LDS INFORMATIK accompagne les petites entreprises dans la gestion et la sécurisation de leur informatique. Une approche flexible, moderne et adaptée aux petites structures.</p>
-          <p>Nous ne sommes pas un simple prestataire — nous sommes votre <strong>partenaire de confiance</strong>, disponible et réactif au quotidien.</p>
+          <p>Nous ne sommes pas un simple prestataire - nous sommes votre <strong>partenaire de confiance</strong>, disponible et réactif au quotidien.</p>
 
           {/* Prix */}
           <div className="ig-price-box">
