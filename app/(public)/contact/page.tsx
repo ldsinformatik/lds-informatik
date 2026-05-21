@@ -299,7 +299,7 @@ export default function ContactPage() {
                 marginBottom: 18,
               }}
             >
-              🕒 Horaires d&apos;ouverture
+              🕒 Nos Horaires
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <div
@@ -322,7 +322,7 @@ export default function ContactPage() {
                   Lundi - Vendredi
                 </span>
                 <span style={{ fontSize: 13, color: "var(--gray)" }}>
-                  9h30 - 13h &nbsp;·&nbsp; 14h30 – 18h30
+                  9h30 - 13h &nbsp;·&nbsp; 14h30 - 18h30
                 </span>
               </div>
               <div
