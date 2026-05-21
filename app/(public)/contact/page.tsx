@@ -139,7 +139,7 @@ export default function ContactPage() {
           style={{ marginTop: 10, maxWidth: 520 }}
         >
           Besoin d'un dépannage, d'un conseil ou d'un accompagnement IT ?
-          On vous accueile directement en boutique à Troyes sans rendez-vous.
+          On vous accueille directement en boutique à Troyes sans rendez-vous.
         </div>
       </div>
 
