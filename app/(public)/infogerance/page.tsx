@@ -293,10 +293,9 @@ export default function InfogerancePage() {
           Infogérance &amp; accompagnement <strong>IT</strong>
         </h1>
         <p className="ig-hero-desc">
-          LDS INFORMATIK prend en charge votre informatique de A à Z — maintenance, sécurité,
-          support utilisateurs, cloud — pour que vous puissiez vous concentrer sur votre métier.
+          LDS INFORMATIK accompagne les TPE, PME et professions libérales dans la gestion, la sécurisation et l’évolution de leur informatique au quotidien.
         </p>
-        <p className="ig-hero-sub">TPE · PME · Professions libérales · Associations</p>
+        <p className="ig-hero-sub">Maintance - Support - Cloud - Sécurité - Sauvegarde</p>
 
         <div className="ig-hero-price">
           <span className="ig-hero-price-main">À partir de 35 €</span>
