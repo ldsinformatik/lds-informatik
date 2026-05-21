@@ -177,7 +177,7 @@ export default function ContactPage() {
                 marginBottom: 18,
               }}
             >
-              📍 Notre boutique
+              📍 Notre atelier
             </div>
             <div
               style={{
