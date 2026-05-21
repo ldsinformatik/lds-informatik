@@ -319,10 +319,10 @@ export default function ContactPage() {
                     color: "var(--secondary)",
                   }}
                 >
-                  Lundi – Vendredi
+                  Lundi - Vendredi
                 </span>
                 <span style={{ fontSize: 13, color: "var(--gray)" }}>
-                  9h30 – 13h &nbsp;·&nbsp; 14h30 – 18h30
+                  9h30 - 13h &nbsp;·&nbsp; 14h30 – 18h30
                 </span>
               </div>
               <div
@@ -345,7 +345,7 @@ export default function ContactPage() {
                   Samedi
                 </span>
                 <span style={{ fontSize: 13, color: "var(--gray)" }}>
-                  9h30 – 14h00
+                  9h30 - 14h00
                 </span>
               </div>
               <div
