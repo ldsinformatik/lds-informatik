@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation'
 
 const links = [
   { href: '/accueil', label: 'Accueil' },
-  { href: '/reparer', label: 'Réparez' },
   { href: '/acheter', label: 'Achetez' },
+  { href: '/reparer', label: 'Réparez' },
   { href: '/infogerance', label: 'Infogérance' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -41,9 +41,6 @@ export default function Navbar({ boutique, isLoggedIn }: { boutique: Record<stri
               <a key={i} href={s.href} target="_blank" rel="noopener" style={{ width: '34px', height: '34px', borderRadius: '9px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text)', textDecoration: 'none', transition: 'all .18s' }}>{s.svg}</a>
             ))}
           </div>
-          <Link href={isLoggedIn ? '/espace-client/tableau-de-bord' : '/espace-client/connexion'} style={{ fontSize: '12.5px', fontWeight: 600, color: '#fff', background: 'var(--primary)', padding: '9px 20px', borderRadius: '12px', boxShadow: '0 6px 18px rgba(0,74,173,.22)', textDecoration: 'none', transition: 'all .18s', whiteSpace: 'nowrap' }}>
-            {isLoggedIn ? '👤 Mon espace' : '👤 Connexion'}
-          </Link>
           <button onClick={() => setOpen(!open)} className="nav-burger" style={{ display: 'none', flexDirection: 'column', gap: '5px', cursor: 'pointer', padding: '6px', border: 'none', background: 'none', borderRadius: '8px' }}>
             <span style={{ display: 'block', width: '22px', height: '2px', background: 'var(--secondary)', borderRadius: '2px', transition: 'all .25s', transform: open ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
             <span style={{ display: 'block', width: '22px', height: '2px', background: 'var(--secondary)', borderRadius: '2px', opacity: open ? 0 : 1, transition: 'all .25s' }} />
@@ -59,9 +56,6 @@ export default function Navbar({ boutique, isLoggedIn }: { boutique: Record<stri
               {l.label}
             </Link>
           ))}
-          <Link href={isLoggedIn ? '/espace-client/tableau-de-bord' : '/espace-client/connexion'} onClick={() => setOpen(false)} style={{ marginTop: '12px', textAlign: 'center', fontSize: '15px', fontWeight: 700, color: '#fff', background: 'var(--primary)', padding: '15px', borderRadius: '13px', boxShadow: '0 6px 18px rgba(0,74,173,.25)', textDecoration: 'none', display: 'block' }}>
-            {isLoggedIn ? '👤 Mon espace' : '👤 Connexion'}
-          </Link>
         </div>
       )}
       <style>{`@media(max-width:768px){.nav-links,.nav-social{display:none!important;}.nav-burger{display:flex!important;}}`}</style>
