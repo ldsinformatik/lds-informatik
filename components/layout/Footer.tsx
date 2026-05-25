@@ -34,7 +34,7 @@ export default function Footer({ boutique }: { boutique: Record<string, string> 
             <li><Link href="/Réparer" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Réparation</Link></li>
             <li><Link href="/PC sur mesure" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>PC sur mesure</Link></li>
             <li><Link href="/Infogerance" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Infogérance B2B</Link></li>
-            <li><a href={boutique.teamviewer || 'https://teamviewer.com'} target="_blank" rel="noopener" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Assistance à distance</a></li>
+            <li><a href={boutique.teamviewer || 'https://get.teamviewer.com/ldsinformatik'} target="_blank" rel="noopener" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Assistance à distance</a></li>
           </ul>
         </div>
 
