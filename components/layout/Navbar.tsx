@@ -31,7 +31,7 @@ export default function Navbar({ boutique, isLoggedIn }: { boutique: Record<stri
           ))}
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <<div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'flex-end' }}>
           <div className="nav-social" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {[
               { href: boutique.facebook || 'https://www.facebook.com/ldsinformatik10', svg: <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
@@ -41,7 +41,7 @@ export default function Navbar({ boutique, isLoggedIn }: { boutique: Record<stri
               <a key={i} href={s.href} target="_blank" rel="noopener" style={{ width: '34px', height: '34px', borderRadius: '9px', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text)', textDecoration: 'none', transition: 'all .18s' }}>{s.svg}</a>
             ))}
           </div>
-          <button onClick={() => setOpen(!open)} className="nav-burger" style={{ display: 'none', flexDirection: 'column', gap: '5px', cursor: 'pointer', padding: '6px', border: 'none', background: 'none', borderRadius: '8px' }}>
+          <button onClick={() => setOpen(!open)} className="nav-burger" style={{ display: 'none', flexDirection: 'column', gap: '5px', cursor: 'pointer', padding: '6px', border: 'none', background: 'none', borderRadius: '8px', marginLeft:'auto' }}>
             <span style={{ display: 'block', width: '22px', height: '2px', background: 'var(--secondary)', borderRadius: '2px', transition: 'all .25s', transform: open ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
             <span style={{ display: 'block', width: '22px', height: '2px', background: 'var(--secondary)', borderRadius: '2px', opacity: open ? 0 : 1, transition: 'all .25s' }} />
             <span style={{ display: 'block', width: '22px', height: '2px', background: 'var(--secondary)', borderRadius: '2px', transition: 'all .25s', transform: open ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
