@@ -332,21 +332,6 @@ export default function AccueilPage() {
           </div>
         </section>
 
-        {/* URGENCE BAR */}
-        <div className="urgence-bar">
-          <div className="urgence-l">
-            <div className="urgence-icon">⚡</div>
-            <div>
-              <div className="urgence-title">Besoin urgent ? Intervention rapide disponible</div>
-              <div className="urgence-sub">Dépôt sans rendez-vous · 145 Avenue Pierre Brossolette, Troyes</div>
-            </div>
-          </div>
-          <div className="urgence-r">
-            <a href="/contact" className="btn-p" style={{padding:'9px 20px',fontSize:'12.5px'}}>Demander un devis</a>
-            <a href="tel:0745014127" className="btn-s" style={{padding:'9px 18px',fontSize:'12.5px'}}>📞 Appeler</a>
-          </div>
-        </div>
-
         {/* TRUST BAND */}
         <div className="trust-band">
           <div className="trust-item">
