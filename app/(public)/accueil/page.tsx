@@ -193,19 +193,6 @@ export default function AccueilPage() {
         }
         .btn-s:hover{border-color:var(--primary);color:var(--primary);}
 
-        /* URGENCE BAR */
-        .urgence-bar{
-          background:#fff;border:.5px solid var(--border);border-radius:14px;
-          padding:16px 24px;margin:0 32px 8px;
-          display:flex;align-items:center;justify-content:space-between;gap:12px;
-          box-shadow:var(--shadow);
-        }
-        .urgence-l{display:flex;align-items:center;gap:14px;}
-        .urgence-icon{width:40px;height:40px;background:#FEF3C7;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-        .urgence-title{font-size:14px;font-weight:700;color:var(--secondary);}
-        .urgence-sub{font-size:12px;color:var(--gray);margin-top:2px;}
-        .urgence-r{display:flex;gap:10px;flex-shrink:0;}
-
         /* TRUST BAND */
         .trust-band{display:grid;grid-template-columns:repeat(3,1fr);background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:8px;}
         .trust-item{padding:18px 20px;text-align:center;position:relative;}
