@@ -124,7 +124,7 @@ export default function Footer({ boutique }: { boutique: Record<string, string> 
       </div>
 
       <div className="footer-bot" style={{ borderTop: '1px solid var(--border)', paddingTop: '16px', fontSize: '12px', color: 'var(--gray)', textAlign: 'center' }}>
-        © {year} LDS INFORMATIK — Tous droits réservés
+        © {year} LDS INFORMATIK - Tous droits réservés
       </div>
 {/* MODALS */}
 {modal && (
