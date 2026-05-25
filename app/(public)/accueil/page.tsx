@@ -321,8 +321,8 @@ export default function AccueilPage() {
           <div className="hero-grid">
             <div>
               <HoursBadge />
-              <h1 style={{color:'#fff'}}>Votre expert <span style={{color:'#63d3c5'}}>informatique</span> à Troyes</h1>
-              <p className="hero-sub" style={{color:'rgba(255,255,255,.75)'}}>
+              <h1 style={{color:'#052659'}}>Votre expert <span style={{color:'#004AAD'}}>informatique</span> à Troyes</h1>
+              <p className="hero-sub" style={{color:'#052659'}}>
                 Depuis 2023, LDS INFORMATIK accompagne les particuliers et les professionnels pour tous leurs besoins informatique et téléphonie.
               </p>
               <div className="hero-btns">
