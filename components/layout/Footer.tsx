@@ -31,10 +31,9 @@ export default function Footer({ boutique }: { boutique: Record<string, string> 
         <div className="footer-col">
           <h4>Services</h4>
           <ul>
-            <li><Link href="/reparer" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Réparation</Link></li>
-            <li><Link href="/acheter" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>PC sur mesure</Link></li>
-            <li><Link href="/acheter" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Vente reconditionnée</Link></li>
-            <li><Link href="/infogerance" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Infogérance B2B</Link></li>
+            <li><Link href="/Réparer" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Réparation</Link></li>
+            <li><Link href="/PC sur mesure" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>PC sur mesure</Link></li>
+            <li><Link href="/Infogerance" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Infogérance B2B</Link></li>
             <li><a href={boutique.teamviewer || 'https://teamviewer.com'} target="_blank" rel="noopener" style={{ color: 'var(--gray)', textDecoration: 'none', fontSize: '12.5px' }}>Assistance à distance</a></li>
           </ul>
         </div>
@@ -54,10 +53,9 @@ export default function Footer({ boutique }: { boutique: Record<string, string> 
         <div className="footer-col">
           <h4>Infos légales</h4>
           <ul>
-            <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>Mentions légales</span></li>
             <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>CGV</span></li>
             <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>Confidentialité</span></li>
-            <li style={{ marginTop: '8px', fontSize: '11px', color: 'var(--gray)' }}>SIRET : {boutique.siret || '94895280900044'}</li>
+            <li><span style={{ color: 'var(--gray)', fontSize: '12.5px', cursor: 'pointer' }}>Mentions légales</span></li>
           </ul>
         </div>
 
