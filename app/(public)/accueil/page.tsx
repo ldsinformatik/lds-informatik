@@ -149,9 +149,9 @@ export default function AccueilPage() {
         /* HERO */
         .hero{padding:56px 32px 40px;}
         .hero-gradient-anim{
-          background:linear-gradient(135deg,#021634,#052659,#004AAD,#0066DD);
+        background:#f5f7fb;
           background-size:300% 300%;
-          animation:gradShift 10s ease infinite;
+          animation:gradShift 5s ease infinite;
         }
         .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;max-width:1100px;margin:auto;}
         .hero h1{font-size:clamp(2rem,4vw,3.4rem);font-weight:800;line-height:1.1;color:var(--secondary);margin-bottom:18px;}
